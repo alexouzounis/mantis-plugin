@@ -2,6 +2,7 @@ package hudson.plugins.mantis.changeset;
 
 import hudson.model.AbstractBuild;
 import hudson.scm.ChangeLogSet.Entry;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,19 @@ public class DefaultChangeSet extends AbstractChangeSet<Entry> {
         return text.toString();
     }
 
-    private List<String> getAffectedPaths() {
+    @Override
+	public String createChangeLogWithoutPaths() {
+        final StringBuilder text = new StringBuilder();
+        text.append(Messages.ChangeSet_Revision(UNKNOWN_REVISION, getChangeSetLink()));
+        text.append(CRLF);
+        text.append(Messages.ChangeSet_Author(getAuthor()));
+        text.append(CRLF);
+        text.append(Messages.ChangeSet_Log(getMsg()));
+        text.append(CRLF);
+        return text.toString();
+	}
+
+	private List<String> getAffectedPaths() {
         final List<String> paths = new ArrayList<String>();
         for (final String path : entry.getAffectedPaths()) {
             paths.add(path);

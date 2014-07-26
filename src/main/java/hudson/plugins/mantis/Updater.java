@@ -99,12 +99,8 @@ final class Updater {
         
         if (property.isRecordChangelog()) {
             text.append(changeSet.createChangeLog());
-        }else{
-        	text.append(Messages.ChangeSet_Revision(getRevision(), getChangeSetLink()));
-            text.append(CRLF);
-            text.append(Messages.ChangeSet_Author(getAuthor()));
-            text.append(CRLF);
-            text.append(Messages.ChangeSet_Log(getMsg()));
+        }else if (property.isRecordChangelogWithoutPaths()){
+            text.append(changeSet.createChangeLogWithoutPaths());
         }
         return text.toString();
     }

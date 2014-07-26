@@ -2,6 +2,7 @@ package hudson.plugins.mantis.changeset;
 
 import hudson.model.AbstractBuild;
 import hudson.scm.EditType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,19 @@ public class MercurialChangeSet extends AbstractChangeSet<hudson.plugins.mercuri
         return text.toString();
     }
 
-    protected String getRevision() {
+    @Override
+	public String createChangeLogWithoutPaths() {
+        final StringBuilder text = new StringBuilder();
+        text.append(Messages.ChangeSet_Revision(getRevision(), getChangeSetLink()));
+        text.append(CRLF);
+        text.append(Messages.ChangeSet_Author(getAuthor()));
+        text.append(CRLF);
+        text.append(Messages.ChangeSet_Log(getMsg()));
+        text.append(CRLF);
+        return text.toString();
+	}
+
+	protected String getRevision() {
         return String.valueOf(entry.getRev()) + ":" + entry.getShortNode();
     }
 

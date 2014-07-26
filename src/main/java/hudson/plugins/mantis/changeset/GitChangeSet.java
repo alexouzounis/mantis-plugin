@@ -1,6 +1,7 @@
 package hudson.plugins.mantis.changeset;
 
 import hudson.model.AbstractBuild;
+
 import java.util.Collection;
 
 /**
@@ -37,7 +38,19 @@ public class GitChangeSet extends AbstractChangeSet<hudson.plugins.git.GitChange
         return text.toString();
     }
 
-    protected String getRevision() {
+    @Override
+	public String createChangeLogWithoutPaths() {
+        final StringBuilder text = new StringBuilder();
+        text.append(Messages.ChangeSet_Revision(getRevision(), getChangeSetLink()));
+        text.append(CRLF);
+        text.append(Messages.ChangeSet_Author(getAuthor()));
+        text.append(CRLF);
+        text.append(Messages.ChangeSet_Log(getMsg()));
+        text.append(CRLF);
+        return text.toString();
+	}
+
+	protected String getRevision() {
         return String.valueOf(entry.getId());
     }
 

@@ -3,6 +3,7 @@ package hudson.plugins.mantis.changeset;
 import hudson.model.AbstractBuild;
 import hudson.scm.EditType;
 import hudson.scm.SubversionChangeLogSet;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +40,20 @@ public class SubversionChangeSet extends AbstractChangeSet<SubversionChangeLogSe
         text.append(CRLF);
         return text.toString();
     }
+    
+    @Override
+	public String createChangeLogWithoutPaths() {
+    	 final StringBuilder text = new StringBuilder();
+         text.append(Messages.ChangeSet_Revision(getRevision(), getChangeSetLink()));
+         text.append(CRLF);
+         text.append(Messages.ChangeSet_Author(getAuthor()));
+         text.append(CRLF);
+         text.append(Messages.ChangeSet_Log(getMsg()));
+         text.append(CRLF);
+         return text.toString();
+	}
 
-    protected String getRevision() {
+	protected String getRevision() {
         return String.valueOf(entry.getRevision());
     }
 

@@ -27,17 +27,25 @@ public final class MantisIssueUpdater extends Recorder {
     private final boolean keepNotePrivate;
 
     private final boolean recordChangelog;
+
+    private final boolean recordChangelogWithoutPaths;
+
     
     @DataBoundConstructor
-    public MantisIssueUpdater(final boolean keepNotePrivate, final boolean recordChangelog) {
+    public MantisIssueUpdater(final boolean keepNotePrivate, final boolean recordChangelog,final boolean recordChangelogWithoutPaths) {
         this.keepNotePrivate = keepNotePrivate;
         this.recordChangelog = recordChangelog;
+        this.recordChangelogWithoutPaths=recordChangelogWithoutPaths;
     }
 
     public boolean isKeepNotePrivate() {
         return keepNotePrivate;
     }
 
+    public boolean isRecordChangelogWithoutPaths() {
+        return recordChangelogWithoutPaths;
+    }
+    
     public boolean isRecordChangelog() {
         return recordChangelog;
     }

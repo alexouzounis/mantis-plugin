@@ -20,4 +20,9 @@ public class CompatibleChangeSet extends AbstractChangeSet<ChangeLogSet.Entry> {
     public String createChangeLog() {
         return "";
     }
+
+	@Override
+	public String createChangeLogWithoutPaths() {
+		return "";
+	}
 }

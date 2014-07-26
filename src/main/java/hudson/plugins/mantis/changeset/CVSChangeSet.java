@@ -4,6 +4,7 @@ import hudson.model.AbstractBuild;
 import hudson.scm.CVSChangeLogSet;
 import hudson.scm.CVSRepositoryBrowser;
 import hudson.scm.EditType;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,6 +44,16 @@ public class CVSChangeSet extends AbstractChangeSet<CVSChangeLogSet.CVSChangeLog
     }
 
     @Override
+	public String createChangeLogWithoutPaths() {
+    	 final StringBuilder text = new StringBuilder();
+         text.append(Messages.ChangeSet_Author(getAuthor()));
+         text.append(CRLF);
+         text.append(Messages.ChangeSet_Log(getMsg()));
+         text.append(CRLF);
+         return text.toString();
+	}
+
+	@Override
     protected String getChangeSetLink() {
         return UNKNOWN_CHANGESETLINK;
     }

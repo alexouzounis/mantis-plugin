@@ -5,6 +5,7 @@ import hudson.model.User;
 import hudson.scm.ChangeLogSet.Entry;
 import hudson.scm.RepositoryBrowser;
 import hudson.scm.SCM;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.URL;
@@ -32,6 +33,9 @@ public abstract class AbstractChangeSet<T extends Entry> implements ChangeSet, S
     }
 
     public abstract String createChangeLog();
+    
+    public abstract String createChangeLogWithoutPaths();
+
 
     protected RepositoryBrowser getRepositoryBrowser() {
         if (build == null || build.getProject() == null) {

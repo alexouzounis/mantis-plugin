@@ -20,4 +20,6 @@ public interface ChangeSet {
     int getId();
 
     String createChangeLog();
+    
+    String createChangeLogWithoutPaths();
 }
