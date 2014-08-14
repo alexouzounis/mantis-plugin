@@ -12,7 +12,9 @@ import hudson.scm.ChangeLogSet.Entry;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -129,16 +131,21 @@ final class Updater {
         MantisProjectProperty mpp = MantisProjectProperty.get(build);
         final Pattern pattern = mpp.getRegexpPattern();
         for (final Entry change : build.getChangeSet()) {
+            Set<Integer> ids = new HashSet<Integer>();
             final Matcher matcher = pattern.matcher(change.getMsg());
+            // get all unique ids
             while (matcher.find()) {
                 int id;
                 try {
-                    id = Integer.parseInt(matcher.group(1));
+                    ids.add(Integer.parseInt(matcher.group(1)));
                 } catch (final NumberFormatException e) {
                     // if id is not number, skip
                     LOGGER.log(Level.WARNING, Messages.Updater_IllegalMantisId(matcher.group(1)));
-                    continue;
-                }
+                } 
+            }
+            
+            // create a mantis change-set for uniqe ids, not all of them!  
+            for(int id: ids){
                 changeSets.add(ChangeSetFactory.newInstance(id, build, change));
             }
         }
