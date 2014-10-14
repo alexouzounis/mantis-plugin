@@ -131,19 +131,7 @@ final class Updater {
         MantisProjectProperty mpp = MantisProjectProperty.get(build);
         final Pattern pattern = mpp.getRegexpPattern();
         for (final Entry change : build.getChangeSet()) {
-            Set<Integer> ids = new HashSet<Integer>();
-            final Matcher matcher = pattern.matcher(change.getMsg());
-            // get all unique ids
-            while (matcher.find()) {
-                int id;
-                try {
-                    ids.add(Integer.parseInt(matcher.group(1)));
-                } catch (final NumberFormatException e) {
-                    // if id is not number, skip
-                    LOGGER.log(Level.WARNING, Messages.Updater_IllegalMantisId(matcher.group(1)));
-                } 
-            }
-            
+            Set<Integer> ids = Utility.getUniqueIds(change.getMsg(), pattern);
             // create a mantis change-set for uniqe ids, not all of them!  
             for(int id: ids){
                 changeSets.add(ChangeSetFactory.newInstance(id, build, change));

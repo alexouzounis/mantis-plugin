@@ -8,10 +8,12 @@ import hudson.model.AbstractBuild;
 import hudson.plugins.mantis.model.MantisIssue;
 import hudson.scm.ChangeLogAnnotator;
 import hudson.scm.ChangeLogSet.Entry;
+import java.util.Set;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import org.apache.commons.lang.math.Range;
 
 /**
  * Creates HTML link for Mantis issues.
@@ -35,14 +37,15 @@ public final class MantisLinkAnnotator extends ChangeLogAnnotator {
         final String url = mpp.getSite().getUrl().toExternalForm();
         
         final Pattern pattern = findRegexPattern(action, mpp);
-
-        for (final SubText st : text.findTokens(pattern)) {
-            // retrieve id from changelog
+        
+        for(Range r: Utility.getIdOffsets(pattern, text.getText())){
+            // retrieve id from changelog            
+            SubText st=text.subText(r.getMinimumInteger(), r.getMaximumInteger());
             int id;
             try {
-                id = Integer.valueOf(st.group(1));
+                id = Integer.valueOf(st.getText());
             } catch (final NumberFormatException e) {
-                LOGGER.log(Level.WARNING, Messages.MantisLinkAnnotator_IllegalMantisId(st.group(1)));
+                LOGGER.log(Level.WARNING, Messages.MantisLinkAnnotator_IllegalMantisId(st.getText()));
                 continue;
             }
 
