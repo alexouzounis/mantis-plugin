@@ -29,7 +29,7 @@ public final class Utility {
         '\\', '[', ']', '(', ')', '{', '}', '^', '$', '|', '?', '*', '+', '-', ':', ',', '.', '&'
     };
 
-    private static final Pattern patternInt = Pattern.compile("\\d+");
+    private static final Pattern patternInt = Pattern.compile("([0-9]+)");
     
     static {
         Arrays.sort(REGEXP_CHARS);
@@ -122,17 +122,15 @@ public final class Utility {
         final Matcher matcher = p.matcher(text);
         // get all matches
         while (matcher.find()) {
-            String match = matcher.group(1);
+            String match = matcher.group();
             // for each match of group 1 extract all ints 
-            if(match!=null && match.isEmpty()){
+            if(match!=null && !match.isEmpty()){
                 // get all ints
                 Matcher intMatcher = patternInt.matcher(match);
-                while (matcher.find()) {
-                    for (int gCount = 0; gCount < intMatcher.groupCount(); gCount++) {
-                        int s = matcher.start(1) + intMatcher.start(gCount);
-                        int e = matcher.end(1) - intMatcher.end(gCount);
-                        ranges.add(new IntRange(s, e));
-                    }
+                while (intMatcher.find()) {
+                    int s = matcher.start() + intMatcher.start();
+                    int e = matcher.start() + intMatcher.end();
+                    ranges.add(new IntRange(s, e));
                 }
             }
         }
