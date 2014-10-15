@@ -57,7 +57,7 @@ public final class MantisLinkAnnotator extends ChangeLogAnnotator {
             }
 
             // add hyperlink to Mantis
-            String newUrl = Util.encode(url + "view.php?id=$1");
+            String newUrl = Util.encode(url + "view.php?id="+id);
             String summary=null;
             if (issue == null) {
                 summary = Messages.MantisLinkAnnotator_FailedToGetMantisIssue(id);
