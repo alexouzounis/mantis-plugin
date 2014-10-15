@@ -1,5 +1,6 @@
 package hudson.plugins.mantis;
 
+import com.google.common.collect.Lists;
 import hudson.MarkupText;
 import hudson.Util;
 import java.io.PrintStream;
@@ -102,8 +103,8 @@ public final class Utility {
         return buf.toString();
     }
     
-    public static Set<Integer> getUniqueIds(String text, Pattern p){
-        return new HashSet<Integer>(getIds(p,text));
+    public static List<Integer> getUniqueIds(Pattern p,String text){
+        return Lists.newArrayList(new HashSet<Integer>(getIds(p,text)));
     }
     
     public static List<Integer> getIds(Pattern p, String text) {

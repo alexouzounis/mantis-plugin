@@ -1,6 +1,7 @@
 package hudson.plugins.mantis;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -30,6 +31,10 @@ public class UtilityTest {
         assertEquals("%ID%", Utility.escapeRegexp("%ID%"));
     }
     
+     /**
+     * Test method for
+     * {@link hudson.plugins.mantis.Utility#getIds(java.util.regex.Pattern, java.lang.String) }.
+     */
     @Test
     public void testGetIds(){
         String text = "mantis test M#0022560,0022540\n"
@@ -45,4 +50,23 @@ public class UtilityTest {
         assertEquals(12,ids.size());
     }
 
+     /**
+     * Test method for
+     * {@link hudson.plugins.mantis.Utility#getUniqueIds(java.util.regex.Pattern, java.lang.String)}.
+     */
+    @Test
+    public void testGetUniqueIds(){
+        String text = "mantis test M#0022560,0022540\n"
+                + "M#0022560\n"
+                + "blah blah blah blahhhh M#0022540 blah blah blah\n"
+                + "blah blah blah blahhhh M#0022560,0022540 blah blah blah\n"
+                + "issue 0022560,0022540\n"
+                + "issue 0022560\n"
+                + "blah blah blah blahhhh issue 0022540 blah blah blah\n"
+                + "blah blah blah blahhhh issue 0022560,0022540 blah blah blah 123456 123457,14786";
+        
+        List<Integer> ids=Utility.getUniqueIds(Pattern.compile("(?:issue |M#)([0-9,]+)"), text);
+        assertEquals(2,ids.size());
+    }
+    
 }

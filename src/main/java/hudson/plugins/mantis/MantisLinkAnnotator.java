@@ -8,7 +8,6 @@ import hudson.model.AbstractBuild;
 import hudson.plugins.mantis.model.MantisIssue;
 import hudson.scm.ChangeLogAnnotator;
 import hudson.scm.ChangeLogSet.Entry;
-import java.util.Set;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,13 +58,16 @@ public final class MantisLinkAnnotator extends ChangeLogAnnotator {
 
             // add hyperlink to Mantis
             String newUrl = Util.encode(url + "view.php?id=$1");
+            String summary=null;
             if (issue == null) {
-                LOGGER.log(Level.WARNING, Messages.MantisLinkAnnotator_FailedToGetMantisIssue(id));
-                st.surroundWith(String.format("<a href='%s'>", newUrl), "</a>");
+                summary = Messages.MantisLinkAnnotator_FailedToGetMantisIssue(id);
+                LOGGER.log(Level.WARNING, summary);
             } else {
-                final String summary = Utility.escape(issue.getSummary());
-                st.surroundWith(String.format("<a href='%s' tooltip='%s'>", newUrl, summary), "</a>");
+               summary = Utility.escape(issue.getSummary());
             }
+            
+            st.addMarkup(0,st.length(),"<a href='"+url+"' tooltip='"+summary+"' >","</a>");
+
         }
     }
 

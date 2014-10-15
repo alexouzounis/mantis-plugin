@@ -131,9 +131,8 @@ final class Updater {
         MantisProjectProperty mpp = MantisProjectProperty.get(build);
         final Pattern pattern = mpp.getRegexpPattern();
         for (final Entry change : build.getChangeSet()) {
-            Set<Integer> ids = Utility.getUniqueIds(change.getMsg(), pattern);
             // create a mantis change-set for uniqe ids, not all of them!  
-            for(int id: ids){
+            for(int id: Utility.getUniqueIds(pattern,change.getMsg())){
                 changeSets.add(ChangeSetFactory.newInstance(id, build, change));
             }
         }
