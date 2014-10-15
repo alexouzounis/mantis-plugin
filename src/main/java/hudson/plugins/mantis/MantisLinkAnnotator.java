@@ -66,7 +66,7 @@ public final class MantisLinkAnnotator extends ChangeLogAnnotator {
                summary = Utility.escape(issue.getSummary());
             }
             
-            st.addMarkup(0,st.length(),"<a href='"+url+"' tooltip='"+summary+"' >","</a>");
+            st.addMarkup(0,st.length(),"<a href='"+newUrl+"' tooltip='"+summary+"' >","</a>");
 
         }
     }
